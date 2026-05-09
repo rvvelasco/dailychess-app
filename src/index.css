@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Variables — paleta DailyChess ─── */
+:root {
+  --bg:        #0d1f24;
+  --bg2:       #112028;
+  --surface:   #162a32;
+  --surface2:  #1c3340;
+  --border:    #1e3a44;
+  --teal:      #2abfaa;
+  --teal-dim:  #1a7a6e;
+  --teal-glow: rgba(42,191,170,0.2);
+  --text:      #e8f2f0;
+  --muted:     #7aa8a2;
+  --faint:     #3a5a60;
+  --red:       #d44a4a;
+  --amber:     #c9a84c;
+  --green:     #4caf7c;
+  --sq-light:  #c8ddd8;
+  --sq-dark:   #2a6b62;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0; padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+
+/* ─── Tablero ─── */
+.board-wrapper {
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,0.7));
+  transition: filter 0.3s ease;
+}
+.board-wrapper:hover {
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.85));
+}
+
+/* ─── Drag fix ─── */
+.board-wrapper * { -webkit-user-select: none; user-select: none; }
+[draggable="true"] { cursor: grab; }
+[draggable="true"]:active { cursor: grabbing; }
+
+/* ─── Animaciones ─── */
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes statusPop {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+@keyframes thinkingDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+@keyframes checkGlow {
+  from { box-shadow: 0 0 8px rgba(212,74,74,0.5); }
+  to   { box-shadow: 0 0 24px rgba(212,74,74,0.9), 0 0 48px rgba(212,74,74,0.3); }
+}
+
+.animate-fade-in  { animation: fadeup   0.4s ease both; }
+.animate-slide-in { animation: slideIn  0.3s ease both; }
+.game-status-badge { animation: statusPop 0.35s cubic-bezier(0.175,0.885,0.32,1.275) both; }
+.check-glow        { animation: checkGlow 0.8s ease-in-out infinite alternate; }
+
+.thinking-dots span {
+  animation: thinkingDot 1.4s infinite ease-in-out;
+  display: inline-block;
+}
+.thinking-dots span:nth-child(1) { animation-delay: 0s; }
+.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.move-history {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::selection {
+  background: rgba(42,191,170,0.25);
+  color: white;
+}
